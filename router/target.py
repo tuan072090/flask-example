@@ -1,11 +1,17 @@
 from flask_restful import Resource
-from flask import request
+from flask import request, g
 from model.target_model import TargetSchema,TargetModel
 from marshmallow import ValidationError
+from middleware.Authen import auth
 
 
 class Target(Resource):
+
+    @auth.login_required
     def get(self, **kwargs):
+
+        print("g.current_user", g.current_user)
+
         target_id = kwargs.get("target_id")
 
         if not target_id:
